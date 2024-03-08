@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,9 +23,8 @@ public class Joystick extends View implements View.OnTouchListener {
     private float centerY;
     private float bigRadius;
     private float smallRadius;
-    private JoystickListener JListener;
+    private final JoystickListener JListener;
     private Canvas Surface;
-    private final int ratio = 5; //The smaller, the more shading will occur
 
     public float getY() {
         return percentageY;
@@ -58,13 +58,13 @@ public class Joystick extends View implements View.OnTouchListener {
 
     private void drawJoystick(float newX, float newY) {
         Paint colors = new Paint();
-        Surface.drawColor(Color.WHITE); // Clear the BG
+        Surface.drawColor(Color.TRANSPARENT); // Clear the BG
 
         colors.setARGB(255, 100, 100, 100);
         Surface.drawCircle(centerX, centerY, bigRadius, colors);
 
         colors.setARGB(255, 50, 50, 50);
-        Surface.drawCircle(newX, newY, smallRadius - ratio / 2, colors);
+        Surface.drawCircle(newX, newY, smallRadius, colors);
     }
 
     public boolean onTouch(View v, MotionEvent e) {
