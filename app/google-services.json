@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "28872196453",
+    "firebase_url": "https://robot-europe-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "robot-europe",
+    "storage_bucket": "robot-europe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28872196453:android:04ede81069b5c7ea5aa18c",
+        "android_client_info": {
+          "package_name": "com.example.project_robot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcQsVlD9Z5cnyMDxECrbpjxss9o--Y7NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
