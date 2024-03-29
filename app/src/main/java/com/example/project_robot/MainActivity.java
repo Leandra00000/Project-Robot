@@ -8,7 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +24,13 @@ public class MainActivity extends AppCompatActivity implements Joystick.Joystick
 
     private Joystick joystick;
     private DatabaseReference mDatabase;
-    private ImageView Image;
+    //private ImageView Image;
+    private WebView webView;
+    private SeekBar seekBar;
+    private TextView val_led;
     private TextView CO2;
     private boolean Start=true;
-    private boolean firstImage=true;
+    //private boolean firstImage=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +38,47 @@ public class MainActivity extends AppCompatActivity implements Joystick.Joystick
         setContentView(R.layout.activity_main);
 
         joystick = (Joystick) findViewById(R.id.Joystick);
-        Image= (ImageView) findViewById(R.id.imageView);
+        //Image= (ImageView) findViewById(R.id.imageView);
+        webView = findViewById(R.id.webView);
         CO2= (TextView) findViewById(R.id.CO2);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        seekBar = findViewById(R.id.seekBar2);
+        val_led = findViewById(R.id.led);
 
         readCO2FromDatabase();
-        readImageFromDatabase();
+        //readImageFromDatabase();
+        setupSeekBarListener();
+
+    }
+    private void setupSeekBarListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                val_led.setVisibility(View.VISIBLE);
+                val_led.setText(progress + "/100");
+
+                mDatabase.child("Sensor").child("flash").setValue(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Método chamado quando o usuário toca no SeekBar
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Método chamado quando o usuário para de tocar no SeekBar
+            }
+        });
+    }
+
+    public void buttonPlayVideo(View view) {
+        String videoUrl = "http://192.168.240.209/mjpeg/1";
+        webView.loadUrl(videoUrl);
+    }
+
+    public void buttonStopVideo(View view) {
+        webView.loadUrl("about:blank");
     }
 
     @Override
@@ -49,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements Joystick.Joystick
         mDatabase.child("Joystick").child("Ypercentage").setValue(yPercent);
     }
 
+    /*
     private void readImageFromDatabase() {
         mDatabase.child("Camera").addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,15 +123,15 @@ public class MainActivity extends AppCompatActivity implements Joystick.Joystick
 
             }
         });
-    }
+    }*/
 
     private void updateCO2TextView(int co2Value) {
 
         if (co2Value == -1) {
             CO2.setTextColor(Color.BLACK); // or any default color
-        } else if (co2Value < 400) {
-            CO2.setTextColor(Color.GREEN);
         } else if (co2Value < 1000) {
+            CO2.setTextColor(Color.GREEN);
+        } else if (co2Value < 2000) {
             CO2.setTextColor(Color.YELLOW);
         } else {
             CO2.setTextColor(Color.RED);

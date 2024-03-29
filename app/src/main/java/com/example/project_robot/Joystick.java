@@ -72,7 +72,7 @@ public class Joystick extends View implements View.OnTouchListener {
             float displacement = (float) Math.sqrt((Math.pow(e.getX() - centerX, 2)) + Math.pow(e.getY() - centerY, 2));
             if (displacement < bigRadius) {
                 percentageX = (e.getX() - centerX) / bigRadius;
-                percentageY = (e.getY() - centerY) / bigRadius;
+                percentageY = -(e.getY() - centerY) / bigRadius;
                 drawX=e.getX();
                 drawY=e.getY();
             } else {
@@ -80,7 +80,7 @@ public class Joystick extends View implements View.OnTouchListener {
                 float constrainedX = centerX + (e.getX() - centerX) * ratio;
                 float constrainedY = centerY + (e.getY() - centerY) * ratio;
                 percentageX = (constrainedX - centerX) / bigRadius;
-                percentageY = (constrainedY - centerY) / bigRadius;
+                percentageY = -(constrainedY - centerY) / bigRadius;
                 drawX=constrainedX;
                 drawY=constrainedY;
             }
